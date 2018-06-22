@@ -60,15 +60,27 @@ public class RedisDemo1 {
 
 
     /**
+     * @Author  Evan Yang
+     *
+     *  ……………………唯一编号规则定义接口………………………………
+     *  ************ 规则无法修改，只能停用 启用********
      * @param numRule 编码生成规则  包含：
      *  {PARAM(xxx)} 固定内容xxx  可以为字母、符号（“-”，“/”等）、数字
      *  {DATE(YYYYMMDD)} 日期  YYYY 年份  MM 月份  DD 日期
-     *  {NO(x)} 递增数字 x为位数
+     *  {NO(x)} 递增数字 x为位数  如果包含多个数字规则 会采取将多个数字规则定义为一个 然后切分
+     *   eg: {PARAM(BF)}{DATE(YYYYMMDD)}{NO(4)} ==> BF201806220001
+     *       {PARAM(BF)}{DATE(YYYYMMDD)}{PARAM(AD)}{NO(4)} ==> BF20180622AD0001
      *
      *  @param zeroSet 是否每天都进行重置
+     *  @param ruleCode 规则编码
+     *  @param ruleName 规则名称
+     *  @param ruleRemark  规则备注
+     *   创建人  创建时间  启用状态
      */
     @RequestMapping("setNumRule")
-    public String setNumRule(@RequestParam("numRule")String numRule,@RequestParam("zeroSet")String zeroSet){
+    public String setNumRule(@RequestParam("numRule")String numRule,@RequestParam("zeroSet")String zeroSet, @RequestParam("ruleCode")String ruleCode,
+                             @RequestParam("ruleName")String ruleName,@RequestParam("ruleRemark")String ruleRemark){
+
         String[] numRuleParams = numRule.split("}");
 
 
